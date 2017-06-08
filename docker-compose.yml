@@ -1,0 +1,21 @@
+postgres:
+  image: postgres:9.4.5
+  environment:
+    POSTGRES_USER: portfolio
+    POSTGRES_PASSWORD: portfolio_local_db_pass
+  ports:
+    - '5432:5432'
+  volumes:
+    - ~/.docker-volumes/portfolio/postgresql/data:/var/lib/postgresql/data
+
+
+portfolio:
+  build: .
+  links:
+    - postgres
+  volumes:
+    - .:/portfolio
+  ports:
+    - '3000:3000'
+  env_file:
+    - .portfolio.env
